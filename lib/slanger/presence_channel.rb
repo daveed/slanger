@@ -33,7 +33,7 @@ module Slanger
 
     def subscribe(msg, callback, &blk)
       channel_data = JSON.parse msg['data']['channel_data']
-      public_subscription_id = SecureRandom.uuid
+      public_subscription_id = rand(7653627218239456)
 
       # Send event about the new subscription to the Redis slanger:connection_notification Channel.
       publisher = publish_connection_notification :subscription_id => public_subscription_id, :online => true,
