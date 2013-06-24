@@ -21,7 +21,7 @@ module Slanger
     end
 
     def establish
-      @socket_id = SecureRandom.uuid
+      @socket_id = rand(7653627218239456)
       send_payload nil, 'pusher:connection_established', { :socket_id => @socket_id }
     end
 
