@@ -36,8 +36,8 @@ module Slanger
       public_subscription_id = SecureRandom.uuid
 
       # Send event about the new subscription to the Redis slanger:connection_notification Channel.
-      publisher = publish_connection_notification subscription_id: public_subscription_id, online: true,
-        channel_data: channel_data, channel: channel_id
+      publisher = publish_connection_notification :subscription_id => public_subscription_id, :online => true,
+        :channel_data => channel_data, :channel => channel_id
 
       # Associate the subscription data to the public id in Redis.
       roster_add public_subscription_id, channel_data
@@ -70,7 +70,7 @@ module Slanger
       # Remove subscription data from Redis
       roster_remove public_subscription_id
       # Notify all instances
-      publish_connection_notification subscription_id: public_subscription_id, online: false, channel: channel_id
+      publish_connection_notification :subscription_id => public_subscription_id, :online => false, :channel => channel_id
     end
 
     private
@@ -128,13 +128,13 @@ module Slanger
         # still remains in the subscriptions hash, i.e. multiple browser windows open.
         subscriber = subscriptions.delete message['subscription_id']
         unless subscriptions.has_value? subscriber
-          push payload('pusher_internal:member_removed', { user_id: subscriber['user_id'] })
+          push payload('pusher_internal:member_removed', { :user_id => subscriber['user_id'] })
         end
       end
     end
 
     def payload(event_name, payload = {})
-      { channel: channel_id, event: event_name, data: payload }.to_json
+      { :channel => channel_id, :event => event_name, :data => payload }.to_json
     end
   end
 end

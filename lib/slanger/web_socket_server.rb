@@ -9,15 +9,19 @@ module Slanger
 
       EM.run do
         options = {
-          host:    Slanger::Config[:websocket_host],
-          port:    Slanger::Config[:websocket_port],
-          debug:   Slanger::Config[:debug],
-          app_key: Slanger::Config[:app_key]
+          :host    => Slanger::Config[:websocket_host],
+          :port    => Slanger::Config[:websocket_port],
+          :debug   => Slanger::Config[:debug],
+          :app_key => Slanger::Config[:app_key]
         }
 
+puts "DEBUG WEBSOCKETSERVER"
+puts options.inspect
+puts "DEBUG WEBSOCKETSERVER"
+
         if Slanger::Config[:tls_options]
-          options.merge! secure: true,
-                         tls_options: Slanger::Config[:tls_options]
+          options.merge! :secure => true,
+                         :tls_options => Slanger::Config[:tls_options]
         end
 
         EM::WebSocket.start options do |ws|

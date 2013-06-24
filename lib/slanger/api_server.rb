@@ -41,10 +41,10 @@ module Slanger
 
     def payload(channel, event, data)
       {
-        event:     event,
-        data:      data,
-        channel:   channel,
-        socket_id: params[:socket_id]
+        :event =>     event,
+        :data =>      data,
+        :channel =>   channel,
+        :socket_id => params[:socket_id]
       }.select { |_,v| v }.to_json
     end
 

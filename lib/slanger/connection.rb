@@ -28,7 +28,7 @@ module Slanger
     private
 
     def format(channel_id, event_name, payload = {})
-      body = { event: event_name, data: payload }
+      body = { :event => event_name, :data => payload }
       body[:channel] = channel_id if channel_id
       body.to_json
     end

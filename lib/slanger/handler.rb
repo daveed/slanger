@@ -10,7 +10,7 @@ module Slanger
   class Handler
 
     attr_accessor :connection
-    delegate :error, :send_payload, to: :connection
+    delegate :error, :send_payload, :to => :connection
 
     def initialize(socket)
       @socket        = socket
@@ -33,9 +33,9 @@ module Slanger
       end
 
     rescue JSON::ParserError
-      error({ code: 5001, message: "Invalid JSON" })
+      error({ :code => 5001, :message => "Invalid JSON" })
     rescue Exception => e
-      error({ code: 500, message: "#{e.message}\n #{e.backtrace.join "\n"}" })
+      error({ :code => 500, :message => "#{e.message}\n #{e.backtrace.join "\n"}" })
     end
 
     def onclose
@@ -48,7 +48,7 @@ module Slanger
     def authenticate
       return connection.establish if valid_app_key? app_key
 
-      error({ code: 4001, message: "Could not find app by key #{app_key}" })
+      error({ :code => 4001, :message => "Could not find app by key #{app_key}" })
       @socket.close_websocket
     end
 
@@ -63,7 +63,7 @@ module Slanger
       klass      = subscription_klass channel_id
 
       if @subscriptions[channel_id]
-        error({ code: nil, message: "Existing subscription to #{channel_id}" })
+        error({ :code => nil, :message => "Existing subscription to #{channel_id}" })
       else
         @subscriptions[channel_id] = klass.new(connection.socket, connection.socket_id, msg).subscribe
       end
